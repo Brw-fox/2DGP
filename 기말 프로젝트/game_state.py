@@ -1,14 +1,18 @@
 from pico2d import *
 import gfw
 from player import Player
-
+from boss import  Boss
 
 def enter():
-    gfw.world.init(['player'])
+    gfw.world.init(['bullet', 'player', 'boss'])
 
     global player
     player = Player()
     gfw.world.add(gfw.layer.player, player)
+
+    global  boss
+    boss = Boss()
+    gfw.world.add(gfw.layer.boss, boss)
 
 def exit():
     pass
