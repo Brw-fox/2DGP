@@ -1,4 +1,6 @@
 from pico2d import *
+from math import *
+
 
 def pos_add(pos1, pos2):
     x1, y1 = pos1
@@ -14,8 +16,25 @@ def Collsion_AABB(a, b):
     if aMaxX < bMinX:
         return False
     if aMinY > bMaxY:
-        return  False
+        return False
     if aMaxY < bMinY:
         return False
 
     return True
+
+def curve_line(p1, p2, p3):
+    for i in range(0, 100, 4):
+        t = i /100
+        x = (2 * t ** 2 - 3 * t + 1) * p1[0] + (-4 * t ** 2 + 4 * t) * p2[0] + (2 * t ** 2 - t) * p3[0]
+        y = (2 * t ** 2 - 3 * t + 1) * p1[1] + (-4 * t ** 2 + 4 * t) * p2[1] + (2 * t ** 2 - t) * p3[1]
+        print(x,y)
+        yield (x, y)
+
+def calc_degree(x, y):
+    a = (x / fabs(x), y / fabs(y))
+    b = (1, 0)
+
+    c = (a[0] - b[0], a[1] - b[1])
+    c = (c[0] / fabs(c[0]), c[1] / fabs(c[1]))
+
+    return degrees(acos(c))

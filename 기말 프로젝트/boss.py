@@ -1,5 +1,6 @@
 from pico2d import *
 import gfw
+import gobj
 
 class Boss:
     def __init__(self):
@@ -11,6 +12,7 @@ class Boss:
         self.time = 0
         self.speed =0
         self.mass = 0
+        Boss.boss = self
 
     def update(self):
         self.time += gfw.delta_time
@@ -28,3 +30,5 @@ class Boss:
         hw = 40
         hh = 40
         return (self.pos[0] - hw, self.pos[0] + hw, self.pos[1] - hh, self.pos[1] + hh)
+
+

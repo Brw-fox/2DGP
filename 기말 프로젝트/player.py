@@ -34,6 +34,11 @@ class Player:
         self.slowing = False
         self.shooting = False
 
+        global BOUNDARY_LEFT, BOUNDARY_RIGHT, BOUNDARY_DOWN, BOUNDARY_UP
+        BOUNDARY_LEFT = 16
+        BOUNDARY_DOWN = 24
+        BOUNDARY_RIGHT = get_canvas_width() - BOUNDARY_LEFT
+        BOUNDARY_UP = get_canvas_height() - BOUNDARY_DOWN
 
     def update(self):
         x, y = self.pos
@@ -41,6 +46,8 @@ class Player:
         x += dx * self.speed * gfw.delta_time
         y += dy * self.speed * gfw.delta_time
 
+        x = clamp(BOUNDARY_LEFT, x, BOUNDARY_RIGHT)
+        y = clamp(BOUNDARY_DOWN, y, BOUNDARY_UP)
         self.pos = x, y
 
         self.time += gfw.delta_time
@@ -95,8 +102,8 @@ class Player:
         halfY = 24 # 48 // 2
         m1 = Missile(x - halfX, y + halfY)
         m2 = Missile(x + halfX, y + halfY)
-        gfw.world.add(gfw.layer.bullet, m1)
-        gfw.world.add(gfw.layer.bullet, m2)
+        gfw.world.add(gfw.layer.missile, m1)
+        gfw.world.add(gfw.layer.missile, m2)
 
     def get_BB(self):
         hw = 5
