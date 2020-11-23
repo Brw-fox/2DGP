@@ -3,8 +3,11 @@ import gfw
 import gobj
 import pattern
 from player import Player
-from boss import  Boss
+from boss import Boss
 from background import VertScrollBackground
+
+STATE_IN_GAME, STATE_PAUSED = range(2)
+
 def enter():
     gfw.world.init(['bg','missile','bullet', 'player', 'boss'])
     pattern.init()
@@ -23,12 +26,18 @@ def enter():
     gfw.world.add(gfw.layer.bg, bg)
     gfw.world.add(gfw.layer.bg, leaf)
 
+    global state
+    state = STATE_IN_GAME
+
 
 def exit():
     pass
 
 
 def update():
+    if state == STATE_PAUSED:
+        return
+
     gfw.world.update()
     pattern.update()
     check_collsion()
@@ -41,11 +50,12 @@ def draw():
 
 
 def handle_event(e):
+    global state
     if e.type == SDL_Quit:
         gfw.quit()
     if e.type == SDL_KEYDOWN:
         if e.key == SDLK_ESCAPE:
-            gfw.pop()
+            state = STATE_PAUSED
 
     player.handle_event(e)
 
