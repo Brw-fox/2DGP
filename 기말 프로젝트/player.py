@@ -22,6 +22,7 @@ class Player:
     ROTATING_SLOWEFF = 3.14 / 180
     def __init__(self):
         self.image = gfw.image.load('./res/player.png')
+        self.font = gfw.font.load('res/ConsolaMalgun.ttf', 35)
         self.slowEffImage = gfw.image.load('./res/eff_sloweffect.png').clip_image(27,27,10,10) # 임시, 원래값: 0,0,64,64
         self.pos = get_canvas_width() // 2, 100
         self.delta = 0, 0
@@ -33,7 +34,7 @@ class Player:
         self.degree = 0
         self.slowing = False
         self.shooting = False
-
+        self.deathcount = 0
         global BOUNDARY_LEFT, BOUNDARY_RIGHT, BOUNDARY_DOWN, BOUNDARY_UP
         BOUNDARY_LEFT = 16
         BOUNDARY_DOWN = 24
@@ -67,6 +68,10 @@ class Player:
         width, height = 32, 48
         sx = self.fidx * width
         sy = (self.image.h - 48) - (self.action * height)
+
+        pos = 600,500
+
+        self.font.draw(*pos, 'Death : %.1i' % self.deathcount, (0,0,0))
 
         self.image.clip_draw(sx, sy, width, height, *self.pos)
 

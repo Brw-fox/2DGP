@@ -31,7 +31,7 @@ def exit():
 def update():
     gfw.world.update()
     pattern.update()
-    check_collsion(boss)
+    check_collsion()
     print(gfw.world.count_at(gfw.layer.bullet))
 
 
@@ -49,14 +49,21 @@ def handle_event(e):
 
     player.handle_event(e)
 
-def check_collsion(Boss):
-    if gobj.Collsion_AABB(player, Boss):
+def check_collsion():
+    if gobj.Collsion_AABB(player, boss):
         pass
 
-    for b in gfw.world.objects_at(gfw.layer.missile):
-        if gobj.Collsion_AABB(b, Boss):
-            b.remove()
+    for m in gfw.world.objects_at(gfw.layer.missile):
+        if gobj.Collsion_AABB(m, boss):
+            m.remove()
             return
+
+    for b in gfw.world.objects_at(gfw.layer.bullet):
+        if gobj.Collsion_AABB(b, player):
+            b.remove()
+            player.deathcount += 1
+            return
+
 
 if __name__ == '__main__':
     gfw.run_main()

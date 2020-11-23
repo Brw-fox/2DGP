@@ -30,7 +30,7 @@ def shot_curve():
     #p3 = b.pos[0] - 50, b.pos[1] - 50
     b1_rect = (352, 960 - 30, 31, 30)
 
-    bullet1 = Bullet(random.uniform(b.pos[0]-50,b.pos[0]+50),random.uniform(b.pos[1]-40,b.pos[1]-50), random.uniform(-1,1), random.uniform(0.5,1) - 1, *b1_rect,300)
+    bullet1 = Bullet(random.uniform(b.pos[0]-50,b.pos[0]+50),random.uniform(b.pos[1]-40,b.pos[1]-50), random.uniform(-0.3,0.3), random.uniform(0.5,1) - 1,300)
     gfw.world.add(gfw.layer.bullet, bullet1)
     degree = 5
     bullet1.rotate(degree)

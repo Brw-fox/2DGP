@@ -5,8 +5,8 @@ import math
 SIZE = 50
 
 class Bullet:
-    def __init__(self, x, y, dx, dy,l,b,w,h, speed= 100, degree= 0):
-        self.image = gfw.image.load('./res/shotdata.png').clip_image(l,b,w,h)
+    def __init__(self, x, y, dx, dy, speed= 100, degree= 0):
+        self.image = gfw.image.load('./res/shotdata.png')
         self.x,self.y = x, y
         self.dx, self.dy = dx, dy
         self.speed = speed
@@ -22,7 +22,7 @@ class Bullet:
             gfw.world.remove(self)
 
     def draw(self):
-        self.image.rotate_draw(self.degree, self.x, self.y)
+        self.image.clip_draw(352,960-30,31,30,self.x,self.y)
 
     def remove(self):
         gfw.world.remove(self)
@@ -30,6 +30,6 @@ class Bullet:
         rad = math.radians(degree)
         self.degree = rad
     def get_BB(self):
-        hw = self.image.w // 2
-        hh = self.image.h // 2
+        hw = 15
+        hh = 15
         return (self.x - hw, self.x + hw, self.y - hh, self.y + hh)

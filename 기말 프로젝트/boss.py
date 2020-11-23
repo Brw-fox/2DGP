@@ -12,6 +12,7 @@ class Boss:
         self.time = 0
         self.speed =0
         self.mass = 0
+        self.life = 1000
         Boss.boss = self
 
     def update(self):
