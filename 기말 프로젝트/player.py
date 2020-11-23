@@ -98,4 +98,8 @@ class Player:
         gfw.world.add(gfw.layer.bullet, m1)
         gfw.world.add(gfw.layer.bullet, m2)
 
+    def get_BB(self):
+        hw = 5
+        hh = 5
+        return (self.pos[0] - hw, self.pos[0] + hw, self.pos[1] - hh, self.pos[1] +hh)
 

@@ -23,3 +23,8 @@ class Boss:
         sy = (self.image.h - 80) - (self.action * height)
 
         self.image.clip_draw(sx, sy, width, height, *self.pos)
+
+    def get_BB(self):
+        hw = 40
+        hh = 40
+        return (self.pos[0] - hw, self.pos[0] + hw, self.pos[1] - hh, self.pos[1] + hh)

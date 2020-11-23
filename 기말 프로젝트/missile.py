@@ -22,3 +22,11 @@ class Missile:
 
     def draw(self):
         self.image.rotate_draw(DEGREE_90, *self.pos)
+
+    def remove(self):
+        gfw.world.remove(self)
+
+    def get_BB(self):
+        hw = 4
+        hh = 28
+        return (self.pos[0] - hw, self.pos[0] + hw, self.pos[1] - hh, self.pos[1] + hh)
