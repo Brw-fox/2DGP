@@ -4,9 +4,9 @@ import gobj
 import pattern
 from player import Player
 from boss import  Boss
-
+from background import VertScrollBackground
 def enter():
-    gfw.world.init(['missile','bullet', 'player', 'boss'])
+    gfw.world.init(['bg','missile','bullet', 'player', 'boss'])
     pattern.init()
 
     global player
@@ -16,6 +16,12 @@ def enter():
     global boss
     boss = Boss()
     gfw.world.add(gfw.layer.boss, boss)
+
+    global bg
+    bg = VertScrollBackground('./res/world02.png')
+    leaf = VertScrollBackground('./res/world02c2.png')
+    gfw.world.add(gfw.layer.bg, bg)
+    gfw.world.add(gfw.layer.bg, leaf)
 
 
 def exit():
