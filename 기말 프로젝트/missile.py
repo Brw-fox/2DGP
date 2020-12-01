@@ -1,14 +1,16 @@
 from pico2d import *
 import gfw
-
+import math
+import gobj
 SPEED = 3000
-DEGREE_90 = 90 * 3.14 / 180
+DEGREE_90 = math.radians(90)
+
 class Missile:
     def __init__(self, x, y, delta = (0,1)):
         self.pos = x, y
         self.delta = delta
-        self.image = gfw.image.load('./res/player.png').clip_image(68, 72, 56, 8)
-        self.image.opacify(0.1)
+        self.image = gfw.image.load('./res/player.png')
+
     def update(self):
         x,y = self.pos
         dx, dy = self.delta
@@ -21,7 +23,7 @@ class Missile:
         self.pos = x, y
 
     def draw(self):
-        self.image.rotate_draw(DEGREE_90, *self.pos)
+        self.image.clip_composite_draw(68, 72, 56, 8, DEGREE_90, '', *self.pos, 56, 8)
 
     def remove(self):
         gfw.world.remove(self)

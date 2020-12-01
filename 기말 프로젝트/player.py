@@ -18,11 +18,14 @@ class Player:
     KEYDOWN_SHIFT = (SDL_KEYDOWN, SDLK_LSHIFT)
     KEYUP_Z = (SDL_KEYUP, SDLK_z)
     KEYUP_SHIFT = (SDL_KEYUP, SDLK_LSHIFT)
+
     SHOOTHING_INTERVAL = 0.05
     ROTATING_SLOWEFF = 3.14 / 180
+
     def __init__(self):
         self.image = gfw.image.load('./res/player.png')
-        self.slowEffImage = gfw.image.load('./res/eff_sloweffect.png').clip_image(27,27,10,10) # 임시, 원래값: 0,0,64,64
+        self.slowEffImage = gfw.image.load('./res/eff_sloweffect.png') # 임시, 원래값: 0,0,64,64
+        gobj.set_image_alpha(self.slowEffImage, 150)
         self.pos = get_canvas_width() // 2, 100
         self.delta = 0, 0
         self.fidx = 0
@@ -71,7 +74,7 @@ class Player:
         self.image.clip_draw(sx, sy, width, height, *self.pos)
 
         if self.slowing:
-            self.slowEffImage.rotate_draw(self.degree, *self.pos)
+            self.slowEffImage.clip_composite_draw(0,0,64,64, self.degree, '', *self.pos ,64,64)
 
     def handle_event(self, e):
         pair = (e.type, e.key)

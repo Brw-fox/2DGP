@@ -38,3 +38,6 @@ def calc_degree(x, y):
     c = (c[0] / fabs(c[0]), c[1] / fabs(c[1]))
 
     return degrees(acos(c))
+
+def set_image_alpha(image, alpha):
+    pico2d.SDL_SetTextureAlphaMod(image.texture, int(alpha))

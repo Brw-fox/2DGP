@@ -6,7 +6,8 @@ SIZE = 50
 
 class Bullet:
     def __init__(self, x, y, dx, dy,l,b,w,h, speed= 100, degree= 0):
-        self.image = gfw.image.load('./res/shotdata.png').clip_image(l,b,w,h)
+        self.image = gfw.image.load('./res/shotdata.png')
+        self.rect = (l,b,w,h)
         self.x,self.y = x, y
         self.dx, self.dy = dx, dy
         self.speed = speed
@@ -22,13 +23,15 @@ class Bullet:
             gfw.world.remove(self)
 
     def draw(self):
-        self.image.rotate_draw(self.degree, self.x, self.y)
+        self.image.clip_composite_draw(*self.rect, self.degree, '', self.x, self.y, 31, 30)
 
     def remove(self):
         gfw.world.remove(self)
+
     def rotate(self, degree):
         rad = math.radians(degree)
         self.degree = rad
+
     def get_BB(self):
         hw = self.image.w // 2
         hh = self.image.h // 2
