@@ -5,13 +5,13 @@ import math
 SIZE = 50
 
 class Bullet:
-    def __init__(self, x, y, dx, dy,l,b,w,h, speed= 100, degree= 0):
+    def __init__(self, x, y,l,b,w,h, degree= 0, speed= 100):
         self.image = gfw.image.load('./res/shotdata.png')
-        self.rect = (l,b,w,h)
+        self.l, self.b ,self.w, self.h = l, b, w, h
         self.x,self.y = x, y
-        self.dx, self.dy = dx, dy
+        self.degree = gobj.radian(degree)
+        self.dx, self.dy = math.cos(degree), math.sin(degree)
         self.speed = speed
-        self.degree = degree
 
     def update(self):
         self.x += self.dx * self.speed * gfw.delta_time
@@ -23,7 +23,8 @@ class Bullet:
             gfw.world.remove(self)
 
     def draw(self):
-        self.image.clip_composite_draw(*self.rect, self.degree, '', self.x, self.y, 31, 30)
+        self.image.clip_composite_draw(self.l, self.b,self.w, self.h\
+                                       ,self.degree, '', self.x, self.y, self.w, self.h)
 
     def remove(self):
         gfw.world.remove(self)
@@ -36,3 +37,11 @@ class Bullet:
         hw = self.image.w // 2
         hh = self.image.h // 2
         return (self.x - hw, self.x + hw, self.y - hh, self.y + hh)
+
+class Bullet1(Bullet):
+    def update(self):
+        self.x += self.dx * self.speed * gfw.delta_time
+        self.y += self.dy * self.speed * gfw.delta_time
+
+
+

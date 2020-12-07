@@ -6,31 +6,47 @@ from boss import *
 import random
 BORDER = 50
 
+patterns = []
 
 def init():
-    global BOUNDARY_LEFT, BOUNDARY_RIGHT, BOUNDARY_DOWN, BOUNDARY_UP, time
+    global BOUNDARY_LEFT, BOUNDARY_RIGHT, BOUNDARY_DOWN, BOUNDARY_UP, patterns
     BOUNDARY_LEFT = -BORDER
     BOUNDARY_DOWN = -BORDER
     BOUNDARY_RIGHT = get_canvas_width() + BORDER
     BOUNDARY_UP = get_canvas_height() + BORDER
-    time = 0
+    patterns = []
 
-def update():
-    global time
-    time += gfw.delta_time
-    if time > 0.2:
-        shot_curve()
+def add(obj):
+    patterns.append(obj)
 
-def shot_curve():
-    global boss, time
-    time = 0
+def shot_curve(t):
+    global boss
+    frame = t * 100
+    i = (frame%100) / 100
     b = Boss.boss
-    #p1 = b.pos[0] + 50, b.pos[1] - 50
-    #p2 = b.pos[0] , b.pos[1] - 200
-    #p3 = b.pos[0] - 50, b.pos[1] - 50
-    b1_rect = (352, 960 - 30, 31, 30)
+    print (i)
+    p1 = b.pos[0] + 30, b.pos[1] - 10
+    p2 = b.pos[0] , b.pos[1] - 60
+    p3 = b.pos[0] - 30, b.pos[1] - 10
+    pos = gobj.curve_line(p1, p2, p3,i)
 
-    bullet1 = Bullet(random.uniform(b.pos[0]-50,b.pos[0]+50),random.uniform(b.pos[1]-40,b.pos[1]-50), random.uniform(-1,1), random.uniform(0.5,1) - 1, *b1_rect,300)
+    b1_rect = (352, 960 - 30, 31, 30)
+    dx = pos[0]-b.pos[0]
+    dy = pos[1]-b.pos[1]
+    bullet1 = Bullet(*pos, *b1_rect, math.atan2(dy, dx))
     gfw.world.add(gfw.layer.bullet, bullet1)
     degree = 5
     bullet1.rotate(degree)
+
+
+class Pattern1:
+    def __init__(self):
+        self.ptime = 0
+        self.time = 0
+
+    def update(self):
+        self.ptime += gfw.delta_time
+        self.time += gfw.delta_time
+        if self.time > 0.1:
+            self.time = 0
+            shot_curve(self.ptime)

@@ -5,8 +5,9 @@ import pattern
 from player import Player
 from boss import  Boss
 from background import VertScrollBackground
+
 def enter():
-    gfw.world.init(['bg','missile','bullet', 'player', 'boss'])
+    gfw.world.init(['bg','missile', 'player', 'bullet', 'boss'])
     pattern.init()
 
     global player
@@ -23,6 +24,10 @@ def enter():
     gfw.world.add(gfw.layer.bg, bg)
     gfw.world.add(gfw.layer.bg, leaf)
 
+    global pattern_index
+    pattern_index = 0
+    p1 = pattern.Pattern1()
+    pattern.add(p1)
 
 def exit():
     pass
@@ -30,10 +35,8 @@ def exit():
 
 def update():
     gfw.world.update()
-    pattern.update()
+    pattern.patterns[pattern_index].update()
     check_collsion(boss)
-    print(gfw.world.count_at(gfw.layer.bullet))
-
 
 
 def draw():
