@@ -35,8 +35,8 @@ class Bullet:
         self.degree = rad
 
     def get_BB(self):
-        hw = self.image.w // 2
-        hh = self.image.h // 2
+        hw = self.w // 2
+        hh = self.h // 2
         return (self.x - hw, self.x + hw, self.y - hh, self.y + hh)
 
 class Bullet1(Bullet):

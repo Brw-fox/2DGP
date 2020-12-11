@@ -34,9 +34,11 @@ class Player:
         self.shooting_time = 0
         self.speed = 300
         self.degree = 0
+        self.death = 0
+        self.deathtime = 0
         self.slowing = False
         self.shooting = False
-        self.death = False
+        self.nodamage = False
         Player.player = self
 
         global BOUNDARY_LEFT, BOUNDARY_RIGHT, BOUNDARY_DOWN, BOUNDARY_UP
@@ -66,6 +68,13 @@ class Player:
         if self.shooting and self.shooting_time > Player.SHOOTHING_INTERVAL:
             self.fire()
 
+        if self.nodamage:
+            self.deathtime += gfw.delta_time
+            gobj.set_image_alpha(self.image, 125)
+            if self.deathtime > 3:
+                self.nodamage = False
+                self.deathtime = 0
+                gobj.set_image_alpha(self.image, 255)
         self.degree += Player.ROTATING_SLOWEFF
 
     def draw(self):
@@ -111,7 +120,7 @@ class Player:
         gfw.world.add(gfw.layer.missile, m2)
 
     def get_BB(self):
-        hw = 5
-        hh = 5
+        hw = 2
+        hh = 2
         return (self.pos[0] - hw, self.pos[0] + hw, self.pos[1] - hh, self.pos[1] +hh)
 

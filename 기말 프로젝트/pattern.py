@@ -73,6 +73,9 @@ def shot_to_player():
 
 class Pattern1:
     def __init__(self):
+        global sound_tan
+        sound_tan = load_wav('res/se_tan00.wav')
+        sound_tan.set_volume(5)
         self.ptime = 0
         self.time = 0
 
@@ -81,11 +84,15 @@ class Pattern1:
         self.time += gfw.delta_time
         if self.time > 0.08:
             self.time = 0
+            sound_tan.play()
             shot_curve(self.ptime)
 
 class Pattern2:
     target = (400, 300)
     def __init__(self):
+        global sound_tan2
+        sound_tan2 = load_wav('res/se_kira00.wav')
+        sound_tan2.set_volume(10)
         self.time = 0
         self.btime = 0
         self.wtime = 0
@@ -108,4 +115,5 @@ class Pattern2:
         b.nodamage = False
         if self.time > 0.8:
             self.time = 0
+            sound_tan2.play()
             shot_circle_to_player()
