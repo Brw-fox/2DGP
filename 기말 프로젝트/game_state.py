@@ -6,11 +6,12 @@ from player import Player
 from boss import  Boss
 from background import VertScrollBackground
 import life_gauge
+import highscore
 
 MAX_PATTERN = 2
 STATE_IN_GAME, STATE_PAUSED, STATE_GAME_OVER = range(3)
 def enter():
-    gfw.world.init(['bg', 'missile', 'player', 'bullet', 'boss'])
+    gfw.world.init(['bg', 'missile', 'player', 'bullet', 'boss', 'ui'])
     pattern.init()
 
     global player
@@ -27,6 +28,9 @@ def enter():
     gfw.world.add(gfw.layer.bg, bg)
     gfw.world.add(gfw.layer.bg, leaf)
 
+    global font
+    font = gfw.font.load('res/ConsolaMalgun.ttf', 20)
+
     global sound_damage, sound_pldead, music_bg
     music_bg = load_music('res/bg_sound.mp3')
     sound_damage = load_wav('res/se_damage00.wav')
@@ -42,6 +46,8 @@ def enter():
     p2 = pattern.Pattern2()
     pattern.add(p2)
     life_gauge.load()
+
+    highscore.load()
 
     start_game()
 
@@ -63,23 +69,37 @@ def pause_game():
     global game_state
     game_state = STATE_PAUSED
     music_bg.pause()
-    player.score = max(0, player.score - 2)
+
 
 def resume_game():
     global game_state
     game_state = STATE_IN_GAME
     music_bg.resume()
 
+def end_game():
+    global game_state
+    print('Dead')
+    game_state = STATE_GAME_OVER
+    music_bg.stop()
+
+    highscore.add(player.death)
+    gfw.world.add(gfw.layer.ui, highscore)
+
 def update():
+    global game_state
+    if game_state != STATE_IN_GAME:
+        return
     gfw.world.update()
-#    if MAX_PATTERN == pattern_index:
-    pattern.patterns[pattern_index].update()
+    if MAX_PATTERN != pattern_index:
+        pattern.patterns[pattern_index].update()
+    else:
+        end_game()
     check_collsion(boss)
 
 
 def draw():
     gfw.world.draw()
-
+    font.draw(700, get_canvas_height() - 45, 'Death: %d' % player.death)
 
 def handle_event(e):
     if e.type == SDL_Quit:
@@ -92,8 +112,10 @@ def handle_event(e):
 
 def check_collsion(Boss):
     global pattern_index
-    if gobj.Collsion_AABB(player, Boss):
+    if gobj.Collsion_AABB(player, Boss) and player.nodamage == False:
+        player.nodamage = True
         sound_pldead.play()
+        player.death += 1
 
     for b in gfw.world.objects_at(gfw.layer.bullet):
         if gobj.Collsion_AABB(b, player) and player.nodamage == False:

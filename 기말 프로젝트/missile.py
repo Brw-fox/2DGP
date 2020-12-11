@@ -10,7 +10,7 @@ class Missile:
         self.pos = x, y
         self.delta = delta
         self.image = gfw.image.load('./res/player.png')
-        self.power = 200
+        self.power = 2
 
     def update(self):
         x,y = self.pos
