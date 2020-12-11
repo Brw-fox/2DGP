@@ -51,8 +51,10 @@ def shot_circle_to_player():
     b1_rect = (768, 960 - 15, 16, 15)
     to_player = math.atan2(dy, dx)
     print(to_player)
-    bullet1 = Bullet(b.pos[0], b.pos[1], *b1_rect, to_player, 400)
-    gfw.world.add(gfw.layer.bullet, bullet1)
+    for i in range(60):
+        bullet1 = Bullet1(b.pos[0], b.pos[1], *b1_rect, to_player, 400)
+        gfw.world.add(gfw.layer.bullet, bullet1)
+        to_player += math.pi / 24
 
 
 def shot_to_player():
@@ -62,12 +64,13 @@ def shot_to_player():
 
     dx = p.pos[0] - b.pos[0]
     dy = p.pos[1] - b.pos[1]
-
-    b1_rect = (737,98,766,124)
-
+    b1_rect = (736,960-155,31,25)
     to_player = math.atan2(dy, dx)
-    bullet1 = Bullet(b.pos[0], b.pos[1], *b1_rect, to_player, 400)
-    gfw.world.add(gfw.layer.bullet, bullet1)
+
+    bullet2 = Bullet(b.pos[0], b.pos[1], *b1_rect, to_player, 100)
+    gfw.world.add(gfw.layer.bullet, bullet2)
+
+
 class Pattern1:
     def __init__(self):
         self.ptime = 0
@@ -98,11 +101,11 @@ class Pattern2:
             move_toward_obj(b)
             return
 
-        if self.btime > 3:
-            self.time = 0
+        if self.btime > 1.5:
+            self.btime = 0
             shot_to_player()
 
         b.nodamage = False
-        if self.time > 1:
+        if self.time > 0.8:
             self.time = 0
             shot_circle_to_player()
