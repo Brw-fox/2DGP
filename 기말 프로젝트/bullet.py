@@ -9,9 +9,10 @@ class Bullet:
         self.image = gfw.image.load('./res/shotdata.png')
         self.l, self.b ,self.w, self.h = l, b, w, h
         self.x,self.y = x, y
-        self.degree = gobj.radian(degree)
+        self.degree = gobj.radian(degree) - math.pi
         self.dx, self.dy = math.cos(degree), math.sin(degree)
         self.speed = speed
+        self.time = 0
 
     def update(self):
         self.x += self.dx * self.speed * gfw.delta_time
@@ -40,8 +41,20 @@ class Bullet:
 
 class Bullet1(Bullet):
     def update(self):
+        self.time += gfw.delta_time
         self.x += self.dx * self.speed * gfw.delta_time
         self.y += self.dy * self.speed * gfw.delta_time
+
+        if self.time > 0.1:
+            self.time = 0
+            if self.speed > 50:
+                self.speed -= 50
+
+        if self.y > get_canvas_height() + SIZE or self.y < -SIZE \
+        or self.x > get_canvas_width() + SIZE or self.x < -SIZE:
+            gfw.world.remove(self)
+
+
 
 
 

@@ -25,7 +25,7 @@ class Player:
     def __init__(self):
         self.image = gfw.image.load('./res/player.png')
         self.slowEffImage = gfw.image.load('./res/eff_sloweffect.png') # 임시, 원래값: 0,0,64,64
-        gobj.set_image_alpha(self.slowEffImage, 150)
+        gobj.set_image_alpha(self.slowEffImage, 220)
         self.pos = get_canvas_width() // 2, 100
         self.delta = 0, 0
         self.fidx = 0
@@ -36,6 +36,8 @@ class Player:
         self.degree = 0
         self.slowing = False
         self.shooting = False
+        self.death = False
+        Player.player = self
 
         global BOUNDARY_LEFT, BOUNDARY_RIGHT, BOUNDARY_DOWN, BOUNDARY_UP
         BOUNDARY_LEFT = 16

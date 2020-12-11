@@ -37,6 +37,7 @@ def calc_degree(x, y):
 
     return degrees(acos(c))
 
+
 def radian(d):
     return math.radians(d)
 

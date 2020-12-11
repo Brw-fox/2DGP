@@ -5,9 +5,11 @@ import pattern
 from player import Player
 from boss import  Boss
 from background import VertScrollBackground
+import life_gauge
 
+MAX_PATTERN = 2
 def enter():
-    gfw.world.init(['bg','missile', 'player', 'bullet', 'boss'])
+    gfw.world.init(['bg', 'missile', 'player', 'bullet', 'boss'])
     pattern.init()
 
     global player
@@ -28,6 +30,9 @@ def enter():
     pattern_index = 0
     p1 = pattern.Pattern1()
     pattern.add(p1)
+    p2 = pattern.Pattern2()
+    pattern.add(p2)
+    life_gauge.load()
 
 def exit():
     pass
@@ -53,11 +58,17 @@ def handle_event(e):
     player.handle_event(e)
 
 def check_collsion(Boss):
+    global pattern_index
     if gobj.Collsion_AABB(player, Boss):
         pass
 
     for b in gfw.world.objects_at(gfw.layer.missile):
-        if gobj.Collsion_AABB(b, Boss):
+        if gobj.Collsion_AABB(b, Boss) and Boss.nodamage == False:
+            dead = Boss.decrease_life(b.power)
+            if dead:
+                pattern_index += 1
+                Boss.life = 1000
+                Boss.nodamage = True
             b.remove()
             return
 
